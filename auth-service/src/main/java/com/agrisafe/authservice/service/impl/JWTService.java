@@ -1,20 +1,26 @@
 package com.agrisafe.authservice.service.impl;
 
+import com.agrisafe.authservice.repository.FarmerRepository;
 import com.agrisafe.common.exception.APIException;
+import com.agrisafe.common.exception.ResourceNotFoundException;
+import com.agrisafe.common.model.Farmer;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class JWTService {
     @Value("${jwt.secret-key}")
     private String JWT_SECRET;
@@ -23,6 +29,7 @@ public class JWTService {
     @Value("${jwt.expiration-in-ms}")
     private int JWT_EXPIRATION_IN_MS;
 
+    private final FarmerRepository farmerRepository;
 
     public String generateToken(String subject, String userType) {
         return Jwts.builder()
@@ -38,15 +45,26 @@ public class JWTService {
         return getJWTClaims(token).getBody().getExpiration();
     }
 
-    public boolean validateToken(String token) {
+    public Long getFarmer(String token) {
         try {
-            getJWTClaims(token);
-            return true;
+            Jws<Claims> claimsJws = getJWTClaims(token);
+            Date expirationTime = claimsJws.getBody().getExpiration();
+            if (Instant.now().isAfter(expirationTime.toInstant())) throw new APIException("Token is expired");
+            String email = claimsJws.getBody().getSubject();
+            return farmerRepository.findFarmerByEmail(email)
+                    .map(Farmer::getId)
+                    .orElseThrow(() -> new ResourceNotFoundException("farmer", "email", email));
+
         } catch (Exception e) {
-            throw new APIException("invalid token");
+            String message = "invalid token";
+            if (e instanceof APIException || e instanceof ResourceNotFoundException) {
+                message = e.getMessage();
+            }
+            throw new APIException(message);
         }
 
     }
+
 
     public Map<String, String> getUserDetailsFromToken(String token) {
         return Map.of(
