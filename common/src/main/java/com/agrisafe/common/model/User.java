@@ -1,12 +1,17 @@
 package com.agrisafe.common.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @MappedSuperclass
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
 public abstract class User extends BaseEntity {
 
     @Column(name = "first_name", nullable = false)
@@ -21,5 +26,7 @@ public abstract class User extends BaseEntity {
     private String email;
     @Column(unique = true, nullable = false)
     private String address;
+    @Column(unique = true, nullable = false)
+    private String password;
 
 }
