@@ -6,9 +6,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>farmerservice</module>
+        <module>farmer-service</module>
         <module>common</module>
-        <module>discoveryserver</module>
+        <module>discovery-server</module>
     </modules>
     <version>1.0-SNAPSHOT</version>
     <name>agrisafe</name>
@@ -18,6 +18,8 @@
         <spring.boot.version>3.1.6</spring.boot.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <mysql.version>8.2.0</mysql.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencies>
