@@ -9,6 +9,7 @@
         <module>farmer-service</module>
         <module>common</module>
         <module>discovery-server</module>
+        <module>auth-service</module>
     </modules>
     <version>1.0-SNAPSHOT</version>
     <name>agrisafe</name>
