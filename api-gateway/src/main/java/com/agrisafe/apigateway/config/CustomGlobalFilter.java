@@ -36,21 +36,20 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         String path = exchange.getRequest().getPath().toString();
         if (!path.contains("public") && !path.contains("auth")) {
 
-            try {
-                //verify token
-                String token = getToken(exchange);
-
-                Mono<String> userIdMono = authServiceWebClient.validateFarmer(token);
-
-                return userIdMono.flatMap(email -> {
-                    exchange.getRequest().mutate().header("email", email);
-                    return chain.filter(exchange);
-                }).switchIfEmpty(handleException(exchange));
+            String token = getToken(exchange);
 
 
-            } catch (Exception e) {
-                return handleException(exchange);
-            }
+            return authServiceWebClient.validateFarmer(token)
+                    .flatMap(email -> {
+                        if (!email.isEmpty()) {
+                            exchange.getRequest().mutate().header("email", email);
+
+                            return chain.filter(exchange);
+                        } else {
+                            return handleException(exchange);
+                        }
+                    })
+                    .onErrorResume(e -> handleException(exchange));
 
         }
 
@@ -74,6 +73,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         }
         byte[] messageBytes = jsonBody.getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(messageBytes);
+        System.out.println("here4");
         return exchange.getResponse().writeWith(Mono.just(buffer));
     }
 
