@@ -7,10 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CreateUserRes<T> {
-    private String message;
-    private String userType;
-    private Token token;
-    private T user;
-
+public class RegisterRes {
+    private final String message;
 }

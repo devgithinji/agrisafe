@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateFarmerReq {
+public class RegisterReq {
     @NotBlank(message = "firstname is required")
     private String firstName;
     @NotBlank(message = "lastname is required")

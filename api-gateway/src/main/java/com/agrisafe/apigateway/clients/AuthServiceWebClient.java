@@ -15,11 +15,11 @@ public class AuthServiceWebClient {
         this.webClient = webClientBuilder.filter(lbFunction).build();
     }
 
-    public Mono<Long> validateFarmer(String token) {
+    public Mono<String> validateFarmer(String token) {
         return webClient.post()
                 .uri("http://auth-service/auth/farmer/validate")
                 .bodyValue(token)
                 .retrieve()
-                .bodyToMono(Long.class);
+                .bodyToMono(String.class);
     }
 }

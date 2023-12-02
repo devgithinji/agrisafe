@@ -45,14 +45,18 @@ public class JWTService {
         return getJWTClaims(token).getBody().getExpiration();
     }
 
-    public Long getFarmer(String token) {
+    public String getFarmer(String token) {
         try {
             Jws<Claims> claimsJws = getJWTClaims(token);
+
             Date expirationTime = claimsJws.getBody().getExpiration();
+
             if (Instant.now().isAfter(expirationTime.toInstant())) throw new APIException("Token is expired");
+
             String email = claimsJws.getBody().getSubject();
+
             return farmerRepository.findFarmerByEmail(email)
-                    .map(Farmer::getId)
+                    .map(Farmer::getEmail)
                     .orElseThrow(() -> new ResourceNotFoundException("farmer", "email", email));
 
         } catch (Exception e) {

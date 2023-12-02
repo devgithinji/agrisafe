@@ -40,17 +40,15 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
                 //verify token
                 String token = getToken(exchange);
 
-                Mono<Long> userIdMono = authServiceWebClient.validateFarmer(token);
+                Mono<String> userIdMono = authServiceWebClient.validateFarmer(token);
 
-                return userIdMono.flatMap(userId -> {
-                    exchange.getRequest().mutate().header("UserId", String.valueOf(userId));
+                return userIdMono.flatMap(email -> {
+                    exchange.getRequest().mutate().header("email", email);
                     return chain.filter(exchange);
                 }).switchIfEmpty(handleException(exchange));
 
 
             } catch (Exception e) {
-                log.error("error");
-                log.error(e.getMessage());
                 return handleException(exchange);
             }
 
