@@ -64,6 +64,13 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
 
         ErrorDetails errorDetails = new ErrorDetails(exchange.getRequest().getPath().toString(), "invalid token");
 
+        String jsonBody = getErrorBody(errorDetails);
+        byte[] messageBytes = jsonBody.getBytes(StandardCharsets.UTF_8);
+        DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(messageBytes);
+        return exchange.getResponse().writeWith(Mono.just(buffer));
+    }
+
+    private String getErrorBody(ErrorDetails errorDetails) {
         String jsonBody = null;
         try {
             jsonBody = objectMapper.writeValueAsString(errorDetails);
@@ -71,10 +78,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
         } catch (Exception e) {
             jsonBody = "{\"message\":\"Error processing JSON\"}";
         }
-        byte[] messageBytes = jsonBody.getBytes(StandardCharsets.UTF_8);
-        DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(messageBytes);
-        System.out.println("here4");
-        return exchange.getResponse().writeWith(Mono.just(buffer));
+        return jsonBody;
     }
 
     private String getToken(ServerWebExchange exchange) {
