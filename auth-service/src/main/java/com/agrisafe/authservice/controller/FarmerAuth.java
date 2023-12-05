@@ -7,7 +7,7 @@ import com.agrisafe.authservice.dto.res.RegisterRes;
 import com.agrisafe.authservice.service.AuthService;
 import com.agrisafe.authservice.service.impl.JWTService;
 import com.agrisafe.common.dto.response.UserResponseDTO;
-import com.agrisafe.common.model.Farmer;
+import com.agrisafe.common.model.auth.Farmer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

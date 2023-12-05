@@ -1,7 +1,7 @@
-package com.agrisafe.famerservice.service;
+package com.agrisafe.famerservice.service.impl;
 
 import com.agrisafe.common.exception.ResourceNotFoundException;
-import com.agrisafe.common.model.Farmer;
+import com.agrisafe.common.model.auth.Farmer;
 import com.agrisafe.famerservice.config.WebclientConfig;
 import com.agrisafe.famerservice.model.FarmerUserDetails;
 import lombok.RequiredArgsConstructor;

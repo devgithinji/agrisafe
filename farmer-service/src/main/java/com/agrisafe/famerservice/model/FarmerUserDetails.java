@@ -1,6 +1,6 @@
 package com.agrisafe.famerservice.model;
 
-import com.agrisafe.common.model.Farmer;
+import com.agrisafe.common.model.auth.Farmer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

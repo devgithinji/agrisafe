@@ -1,6 +1,6 @@
 package com.agrisafe.famerservice.config;
 
-import com.agrisafe.common.model.Farmer;
+import com.agrisafe.common.model.auth.Farmer;
 import com.agrisafe.famerservice.model.FarmerUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

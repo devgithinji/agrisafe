@@ -3,7 +3,7 @@ package com.agrisafe.authservice.service.impl;
 import com.agrisafe.authservice.repository.FarmerRepository;
 import com.agrisafe.common.exception.APIException;
 import com.agrisafe.common.exception.ResourceNotFoundException;
-import com.agrisafe.common.model.Farmer;
+import com.agrisafe.common.model.auth.Farmer;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

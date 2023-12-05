@@ -10,7 +10,7 @@ import com.agrisafe.authservice.service.AuthService;
 import com.agrisafe.common.dto.response.UserResponseDTO;
 import com.agrisafe.common.exception.APIException;
 import com.agrisafe.common.exception.ResourceNotFoundException;
-import com.agrisafe.common.model.Farmer;
+import com.agrisafe.common.model.auth.Farmer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
